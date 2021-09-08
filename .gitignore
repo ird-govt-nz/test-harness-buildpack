@@ -1,0 +1,22 @@
+# Gradle
+.gradle
+build/
+out
+
+# IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Infer
+infer-out/
+
+# OSX
+.DS_Store
+
+# Generated jaxb files
+src/main/java/uri
+
+# other temp files
+._*

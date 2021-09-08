@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        maven { url "https://artifactory.nsp.ird.govt.nz/artifactory/libs-release" }
+        maven { url "https://artifactory.nsp.ird.govt.nz/artifactory/libs-snapshot" }
+        maven { url "https://artifactory.nsp.ird.govt.nz/artifactory/plugins-release" }
+    }
+    dependencies {
+        classpath group: 'pl.allegro.tech.build', name: 'axion-release-plugin', version: '1.12.1'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: "pl.allegro.tech.build.axion-release"
+
+// TODO Start tracking release versions
+//scmVersion {
+//    checks {
+//        snapshotDependencies = false
+//        uncommittedChanges = false
+//        aheadOfRemote = false
+//    }
+//
+//    // If initial version is not set i.e. tag task is absent, version starts at 0.0.1
+//    tag {
+//        initialVersion = {config, position -> '1.0.0'}
+//    }
+//
+//    hooks {
+//        pre 'fileUpdate', [file: 'README.md', pattern: {v, c -> /version: $v/}, replacement: {v, c -> "version: $v"}]
+//        pre 'commit'
+//    }
+//}
+
+group 'com.ird.test.harness.buildpack'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven { url 'https://artifactory.nsp.ird.govt.nz/artifactory/libs-release' }
+    maven { url 'https://artifactory.nsp.ird.govt.nz/artifactory/libs-snapshot' }
+    maven { url 'https://artifactory.nsp.ird.govt.nz/artifactory/plugins-release' }
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}
