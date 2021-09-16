@@ -4,11 +4,11 @@ This allows us to store sensitive information in the service, and pull this info
 
 ## Setting up AWS s3 credentials (to retreive assets stored on an s3 bucket)
 This has already been setup but should this change, you will be required to alter or add new services.
-Please see pre-requisites for installation of Cloud Foundry CLI and access to Assurity Cloud platform.
+Please see 'Installation / access / reference guides' for installation of Cloud Foundry CLI and access.
 
 ### Using Cloud Foundry CLI, to create a new service
 ```
-cf7 cups s3-credentials -p "AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION"
+cf7 cups <SERVICE_NAME> -p "AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION"
 ```
 You will be prompted to enter the values for each parameter. This will then provision the service to the Assurity Cloud platform.
 
