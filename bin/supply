@@ -33,10 +33,10 @@ AWS_ACCESS_KEY_ID="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credenti
 AWS_SECRET_ACCESS_KEY="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_SECRET_ACCESS_KEY')"
 AWS_DEFAULT_REGION="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_DEFAULT_REGION')"
 AWS_BUCKET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_BUCKET')"
-#AWS_KEYSTORE_PATH"$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_KEYSTORE_PATH')"
 AWS_KEYSTORE="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_KEYSTORE')"
 KEYSTORE_SECRET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.KEYSTORE_SECRET')"
 
+# echo "Set Production user data"
 #CUSTOMER_IRD_NUMBER="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_IRD_NUMBER')"
 #CUSTOMER_USERNAME="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_USERNAME')"
 #CUSTOMER_SECRET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_SECRET')"
@@ -50,17 +50,15 @@ mkdir .keystore/
 aws s3 cp s3://$AWS_BUCKET/$AWS_KEYSTORE ./.keystore/
 ls -r  .keystore/
 #APP_KEYSTORE_PATH=/deps/${INDEX}/./.keystore/$AWS_KEYSTORE
-APP_KEYSTORE_PATH=/deps/${INDEX}/./.keystore/$AWS_KEYSTORE
 popd
 
 mkdir -p "${BUILD_DIR}/.profile.d"
 
-# s3_credentials.sh - export env vars for app to consume at start up
+# startup.sh - export env vars for app to consume at start up
 STARTUP_SCRIPT="${BUILD_DIR}/.profile.d/startup.sh"
-echo "export APP_KEYSTORE_PATH" > "${STARTUP_SCRIPT}"
-#echo "export KEYSTORE_SECRET" >> "${STARTUP_SCRIPT}"
-#echo "export JASYPT_SECRET" >> "${STARTUP_SCRIPT}"
-#echo "export CUSTOMER_IRD_NUMBER" >> "${STARTUP_SCRIPT}"
-#echo "export CUSTOMER_USERNAME" >> "${STARTUP_SCRIPT}"
-#echo "export CUSTOMER_SECRET" >> "${STARTUP_SCRIPT}"
-echo $S3_CREDENTIALS_SCRIPT_PATH
+echo "export APP_KEYSTORE_PATH=/home/vcap/deps/${INDEX}/.keystore/$AWS_KEYSTORE" > "${STARTUP_SCRIPT}"
+echo "export KEYSTORE_SECRET=KEYSTORE_SECRET" >> "${STARTUP_SCRIPT}"
+#echo "export JASYPT_SECRET=JASYPT_SECRET" >> "${STARTUP_SCRIPT}"
+#echo "export CUSTOMER_IRD_NUMBER=CUSTOMER_IRD_NUMBER" >> "${STARTUP_SCRIPT}"
+#echo "export CUSTOMER_USERNAME=CUSTOMER_USERNAME" >> "${STARTUP_SCRIPT}"
+#echo "export CUSTOMER_SECRET=CUSTOMER_SECRET" >> "${STARTUP_SCRIPT}"
