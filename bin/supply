@@ -33,8 +33,10 @@ AWS_ACCESS_KEY_ID="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credenti
 AWS_SECRET_ACCESS_KEY="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_SECRET_ACCESS_KEY')"
 AWS_DEFAULT_REGION="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_DEFAULT_REGION')"
 AWS_BUCKET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_BUCKET')"
-AWS_KEYSTORE="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_KEYSTORE')"
-KEYSTORE_SECRET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.KEYSTORE_SECRET')"
+
+echo "Retrieve Keystore and secret"
+AWS_KEYSTORE="$(echo $JAVA_OPTS | grep '-Drest-http-client.keystorePath')"
+KEYSTORE_SECRET="$(echo $JAVA_OPTS | grep '-Drest-http-client.keystorePassword')"
 
 # echo "Set Production user data"
 #CUSTOMER_IRD_NUMBER="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_IRD_NUMBER')"
@@ -46,10 +48,11 @@ export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 aws configure list
 
+AWS_DIR=prod01-cert-details
+
 mkdir .keystore/
-aws s3 cp s3://$AWS_BUCKET/$AWS_KEYSTORE ./.keystore/
+aws s3 cp s3://$AWS_BUCKET/$AWS_DIR/$AWS_KEYSTORE ./.keystore/
 ls -r  .keystore/
-#APP_KEYSTORE_PATH=/deps/${INDEX}/./.keystore/$AWS_KEYSTORE
 popd
 
 mkdir -p "${BUILD_DIR}/.profile.d"
