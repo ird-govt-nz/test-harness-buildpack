@@ -35,8 +35,8 @@ AWS_DEFAULT_REGION="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credent
 AWS_BUCKET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_BUCKET')"
 
 echo "Retrieve Keystore and secret"
-AWS_KEYSTORE="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 'keystorePassword' | cut -d '=' -f2)"
-KEYSTORE_SECRET="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 'keystoreSecret' | cut -d '=' -f2)"
+AWS_KEYSTORE="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 's3Keystore' | cut -d '=' -f2)"
+KEYSTORE_SECRET="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 's3Keypass' | cut -d '=' -f2)"
 
 # echo "Set Production user data"
 #CUSTOMER_IRD_NUMBER="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_IRD_NUMBER')"
