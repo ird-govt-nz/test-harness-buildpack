@@ -33,15 +33,11 @@ AWS_ACCESS_KEY_ID="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credenti
 AWS_SECRET_ACCESS_KEY="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_SECRET_ACCESS_KEY')"
 AWS_DEFAULT_REGION="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_DEFAULT_REGION')"
 AWS_BUCKET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_BUCKET')"
+AWS_DIR="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_DIR')"
 
 echo "Retrieve Keystore and secret"
 AWS_KEYSTORE="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 's3Keystore' | cut -d '=' -f2)"
 KEYSTORE_SECRET="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 's3Keypass' | cut -d '=' -f2)"
-
-# echo "Set Production user data"
-#CUSTOMER_IRD_NUMBER="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_IRD_NUMBER')"
-#CUSTOMER_USERNAME="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_USERNAME')"
-#CUSTOMER_SECRET="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.CUSTOMER_SECRET')"
 
 export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
@@ -49,7 +45,7 @@ export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 aws configure list
 
 mkdir .keystore/
-aws s3 cp s3://$AWS_BUCKET/prod01-cert-details/$AWS_KEYSTORE ./.keystore/
+aws s3 cp s3://$AWS_BUCKET/$AWS_DIR/$AWS_KEYSTORE ./.keystore/
 ls -r .keystore/
 popd
 
@@ -59,7 +55,3 @@ mkdir -p "${BUILD_DIR}/.profile.d"
 STARTUP_SCRIPT="${BUILD_DIR}/.profile.d/startup.sh"
 echo "export APP_KEYSTORE_PATH=/home/vcap/deps/${INDEX}/.keystore/$AWS_KEYSTORE" > "${STARTUP_SCRIPT}"
 echo "export KEYSTORE_SECRET=$KEYSTORE_SECRET" >> "${STARTUP_SCRIPT}"
-#echo "export JASYPT_SECRET=JASYPT_SECRET" >> "${STARTUP_SCRIPT}"
-#echo "export CUSTOMER_IRD_NUMBER=CUSTOMER_IRD_NUMBER" >> "${STARTUP_SCRIPT}"
-#echo "export CUSTOMER_USERNAME=CUSTOMER_USERNAME" >> "${STARTUP_SCRIPT}"
-#echo "export CUSTOMER_SECRET=CUSTOMER_SECRET" >> "${STARTUP_SCRIPT}"
