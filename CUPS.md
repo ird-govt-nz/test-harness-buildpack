@@ -9,6 +9,7 @@ Please see 'Installation / access / reference guides' for installation of Cloud 
 ### Using Cloud Foundry CLI, to create a new service
 ```
 cf7 cups <USER_PROVIDED_SERVICE_NAME> -p "AWS_BUCKET, AWS_DIR, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION"
+cf cups test-artifacts-s3-credentials-staging-customer-experience-monitors -p "AWS_BUCKET, AWS_DIR, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION"
 ```
 You will be prompted to enter the values for each parameter. This will then provision the service to the Assurity Cloud platform.
 
