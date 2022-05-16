@@ -38,8 +38,9 @@ AWS_DIR="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_DI
 echo "Retrieve Keystore and secret"
 AWS_KEYSTORE="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 's3Keystore' | cut -d '=' -f2)"
 KEYSTORE_SECRET="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 's3Keypass' | cut -d '=' -f2)"
-#remove the last 4 characters which is the ".p12"
-AWS_KEYSTORE_DIR="${AWS_KEYSTORE}::-4"
+AWS_KEYSTORE_UUID="$(echo $AWS_KEYSTORE | cut -d '.' -f1)"
+AWS_KEYSTORE_DOMAIN="id.assurity.cloud"
+AWS_KEYSTORE_DIR="${AWS_KEYSTORE_UUID}.${AWS_KEYSTORE_DOMAIN}"
 
 export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
