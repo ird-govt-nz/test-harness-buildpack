@@ -37,7 +37,7 @@ AWS_DIR="$(echo $VCAP_SERVICES | jq -r '.["user-provided"][0].credentials.AWS_DI
 
 echo "Retrieve Keystore and secret"
 AWS_KEYSTORE="$S3KEYSTORE"
-KEYSTORE_SECRET="$(echo $JAVA_OPTS | tr ' ' '\n' | grep 's3Keypass' | cut -d '=' -f2)"
+KEYSTORE_SECRET="$S3KEYPASS"
 #remove the last 4 characters which is the ".p12"
 AWS_KEYSTORE_DIR="${AWS_KEYSTORE::-4}"
 
