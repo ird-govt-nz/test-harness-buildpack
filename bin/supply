@@ -19,7 +19,8 @@ pushd "${CACHE_DIR}"
   tar xzf OpenJDK11U-jdk_x64_linux_hotspot_11.0.10_9.tar.gz
   export PATH=$PWD/jdk-11.0.10+9/bin:$PATH
 
-  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  # temporarily pin aws-cli to workaround bug: https://github.com/aws/aws-cli/issues/8384
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.14.4.zip" -o "awscliv2.zip"
   unzip -o awscliv2.zip
   ./aws/install -i /tmp/aws-cli -b /tmp/bin
   /tmp/bin/aws --version
